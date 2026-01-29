@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNFRAME - 새로운 경험, 더 깊은 관계</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8B4513; /* SaddleBrown */
+            --secondary-color: #F5DEB3; /* Wheat */
+            --text-color: #4a4a4a;
+            --bg-color: #FFFAF0; /* FloralWhite */
+            --header-bg: rgba(255, 250, 240, 0.85);
+            --white: #ffffff;
+            --light-gray: #f4f4f4;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--secondary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: box-shadow 0.3s ease;
+        }
+        header.scrolled {
+            box-shadow: var(--shadow);
+        }
+        header h1 {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+        
+        /* Hero Section - Slider */
+        .hero {
+            height: 60vh;
+            position: relative;
+            overflow: hidden;
+            color: var(--white);
+        }
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            transform: scale(1.1);
+        }
+        .slide.active {
+            opacity: 1;
+            animation: kenburns 10s infinite;
+        }
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
+        }
+        .hero-text {
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+        .hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            margin: 0;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 15px;
+            font-weight: 300;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+        }
+
+        @keyframes kenburns {
+            0% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 80px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .content-section:last-of-type {
+            border-bottom: none;
+        }
+        .content-section h2 {
+            text-align: center;
+            font-size: 2.5em;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+            margin-bottom: 50px;
+        }
+
+        /* Introduction */
+        .introduction p {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* Classes */
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .class-item {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid var(--primary-color);
+        }
+        .class-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .class-item h3 {
+            font-size: 1.6em;
+            font-weight: 500;
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        .class-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+        .class-item li {
+            margin-bottom: 8px;
+        }
+        .class-item small {
+            color: #777;
+            font-style: italic;
+        }
+
+        /* Gallery */
+        .gallery-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gallery-images img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .gallery-images img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Application Form */
+        .application form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .application .form-group {
+            margin-bottom: 20px;
+        }
+        .application label {
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .application input,
+        .application select,
+        .application button {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: 'Noto Sans KR', sans-serif;
+            box-sizing: border-box;
+        }
+        .application input:focus,
+        .application select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
+        }
+        .application button {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .application button:hover {
+            background-color: #6d3a14;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: var(--light-gray);
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+        }
+        footer p {
+            margin: 0;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .content-section h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <h1>UNFRAME</h1>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="slide active" style="background-image: url('resize.webp');">
+                <div class="hero-text">
+                    <h2>새로운 경험, 더 깊은 관계</h2>
+                    <p>나를 찾아가는 시간, UNFRAME과 함께하는 특별한 하루</p>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('resize_1.webp');">
+                <div class="hero-text">
+                    <h2>손 끝에서 피어나는 예술</h2>
+                    <p>일상의 스트레스를 잊고 온전히 나에게 집중하는 시간</p>
+                </div>
+            </div>
+             <div class="slide" style="background-image: url('https://source.unsplash.com/random/1600x900/?craft,workshop');">
+                <div class="hero-text">
+                    <h2>당신만의 작품을 만들다</h2>
+                    <p>세상에 단 하나뿐인 당신의 이야기를 담아보세요</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="container">
+            <section id="about" class="content-section introduction">
+                <h2>UNFRAME에 대한 소개</h2>
+                <p>
+                    UNFRAME은 도자기, 향수 공방 등 다양한 클래스를 통해 단순한 취미를 넘어 사람과 사람을 잇는 공간을 제공합니다.
+                    함께 배우고 만드는 과정에서 소중한 인연을 만나고, 자신의 새로운 가능성을 발견해 보세요. 
+                    UNFRAME은 당신의 삶이 더 풍요로워지도록 곁에서 함께하겠습니다.
+                </p>
+            </section>
+
+            <section id="classes" class="content-section">
+                <h2>One-day Classes</h2>
+                <div class="class-grid">
+                    <div class="class-item">
+                        <h3>도자기 공예</h3>
+                        <p>흙으로 빚는 나만의 작품, 손끝에서 시작되는 힐링의 시간.</p>
+                        <ul>
+                            <li><strong>시간:</strong> 1~2시간</li>
+                            <li><strong>가격:</strong> 1인 30,000원</li>
+                            <li><strong>인원:</strong> 최대 8명</li>
+                        </ul>
+                        <p><small>* 편안한 복장으로 방문해주세요.</small></p>
+                    </div>
+
+                    <div class="class-item">
+                        <h3>나만의 향수 만들기</h3>
+                        <p>세상에 하나뿐인 나만의 향기로 특별한 순간을 만드는 시간.</p>
+                        <ul>
+                            <li><strong>시간:</strong> 1~2시간</li>
+                            <li><strong>가격:</strong> 1인 30,000원</li>
+                            <li><strong>인원:</strong> 최대 8명</li>
+                        </ul>
+                        <p><small>* 모든 재료비가 포함된 가격입니다.</small></p>
+                    </div>
+
+                    <div class="class-item">
+                        <h3>전시회 탐방</h3>
+                        <p>예술로 채우는 감성의 하루, 새로운 시선과 만나는 시간.</p>
+                        <ul>
+                            <li><strong>시간:</strong> 1~2시간</li>
+                            <li><strong>가격:</strong> 1인 30,000원</li>
+                            <li><strong>인원:</strong> 최대 8명</li>
+                        </ul>
+                        <p><small>* 재료비와 소성비는 별도입니다.</small></p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="gallery" class="content-section">
+                <h2>Gallery</h2>
+                <div class="gallery-images">
+                    <img src="resize.webp" alt="완성된 도자기 작품들">
+                    <img src="resize_1.webp" alt="향수 공방의 모습">
+                    <img src="https://source.unsplash.com/random/400x400/?pottery,class" alt="도자기 클래스">
+                    <img src="https://source.unsplash.com/random/400x400/?perfume,making" alt="향수 만들기">
+                    <img src="https://source.unsplash.com/random/400x400/?art,exhibition" alt="전시회 풍경">
+                    <img src="https://source.unsplash.com/random/400x400/?handmade,craft" alt="수공예품">
+                </div>
+            </section>
+
+            <section id="apply" class="content-section application">
+                <h2>클래스 신청하기</h2>
+                <form action="#" method="post">
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">연락처</label>
+                        <input type="tel" id="contact" name="contact" required placeholder="010-1234-5678">
+                    </div>
+                    <div class="form-group">
+                        <label for="class_choice">원하는 클래스</label>
+                        <select id="class_choice" name="class_choice">
+                            <option value="pottery">도자기 공예</option>
+                            <option value="perfume">나만의 향수 만들기</option>
+                            <option value="exhibition">전시회 탐방</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="participants">참여 인원</label>
+                        <input type="number" id="participants" name="participants" min="1" max="8" value="1" required>
+                    </div>
+                    <button type="submit">신청하기</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 UNFRAME. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Add shadow to header on scroll
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Hero Slider
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            const slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
