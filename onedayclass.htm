@@ -124,6 +124,7 @@
             const heroCta = document.querySelector('.hero-cta');
             const createBtn = document.querySelector('.create-btn');
             const closeButtons = document.querySelectorAll('.modal-close');
+            const searchInput = document.querySelector('.search-container input');
 
             // --- 1. Theme Toggler ---
             const currentTheme = localStorage.getItem('theme') || 'light';
@@ -365,10 +366,7 @@
                 { title: "이방인", author: "알베르 카뮈", excerpt: "세상의 부조리와 관습에 순응하지 않는 뫼르소를 통해 인간 존재의 의미와 실존의 문제를 탐구한다." }
             ];
 
-            const createCard = () => {
-                const cardIndex = cardCount % dummyData.length;
-                const data = dummyData[cardIndex];
-                
+            const createCardFromData = (data) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
                 
@@ -386,6 +384,12 @@
                     </div>
                 `;
                 cardGrid.appendChild(card);
+            };
+
+            const createCard = () => {
+                const cardIndex = cardCount % dummyData.length;
+                const data = dummyData[cardIndex];
+                createCardFromData(data);
 
                 cardCount++;
             };
@@ -407,6 +411,92 @@
             observer.observe(loader);
 
             loadMoreCards();
+
+            // --- 7. Search ---
+            const normalizeCompact = (text) => {
+                return text
+                    .toLowerCase()
+                    .replace(/\s+/g, '')
+                    .replace(/[^\w가-힣]/g, '');
+            };
+
+            const tokenize = (text) => {
+                return text
+                    .toLowerCase()
+                    .replace(/[^\w가-힣\s]/g, ' ')
+                    .split(/\s+/)
+                    .filter(Boolean);
+            };
+
+            const levenshtein = (a, b) => {
+                const m = a.length;
+                const n = b.length;
+                if (m === 0) return n;
+                if (n === 0) return m;
+                const dp = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0));
+                for (let i = 0; i <= m; i++) dp[i][0] = i;
+                for (let j = 0; j <= n; j++) dp[0][j] = j;
+                for (let i = 1; i <= m; i++) {
+                    for (let j = 1; j <= n; j++) {
+                        const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+                        dp[i][j] = Math.min(
+                            dp[i - 1][j] + 1,
+                            dp[i][j - 1] + 1,
+                            dp[i - 1][j - 1] + cost
+                        );
+                    }
+                }
+                return dp[m][n];
+            };
+
+            const isFuzzyMatch = (item, keyword) => {
+                const compactKeyword = normalizeCompact(keyword);
+                const fields = [item.title, item.author, item.excerpt];
+                const compactFields = fields.map(normalizeCompact).join(' ');
+
+                if (compactFields.includes(compactKeyword)) return true;
+
+                const tokens = fields.flatMap(tokenize);
+                const threshold = compactKeyword.length <= 4 ? 1 : compactKeyword.length <= 8 ? 2 : 3;
+                return tokens.some((token) => levenshtein(token, compactKeyword) <= threshold);
+            };
+
+            const renderSearchResults = (term) => {
+                const keyword = term.trim().toLowerCase();
+                cardGrid.innerHTML = '';
+
+                if (!keyword) {
+                    loader.style.display = '';
+                    cardCount = 0;
+                    observer.observe(loader);
+                    loadMoreCards();
+                    return;
+                }
+
+                loader.style.display = 'none';
+                observer.disconnect();
+
+                const results = dummyData.filter((item) => isFuzzyMatch(item, keyword));
+
+                if (!results.length) {
+                    const empty = document.createElement('div');
+                    empty.className = 'card';
+                    empty.innerHTML = `
+                        <div class="card-content">
+                            <h3 class="card-title">검색 결과가 없습니다</h3>
+                            <p class="card-excerpt">다른 키워드로 검색해보세요.</p>
+                        </div>
+                    `;
+                    cardGrid.appendChild(empty);
+                    return;
+                }
+
+                results.forEach(createCardFromData);
+            };
+
+            searchInput.addEventListener('input', (e) => {
+                renderSearchResults(e.target.value);
+            });
         });
     </script>
 </body>
