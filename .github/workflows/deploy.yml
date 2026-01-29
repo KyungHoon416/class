@@ -30,6 +30,7 @@ jobs:
         run: |
           mkdir -p dist
           cp onedayclass.htm dist/index.html
+          cp styles.css dist/styles.css
 
           # 만약 css/js/image 같은게 있으면 여기서 같이 복사해줘야 함
           # 예: cp -r assets dist/assets

@@ -3,496 +3,411 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UNFRAME - 새로운 경험, 더 깊은 관계</title>
+    <title>소설링 - 우리들의 이야기</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #8B4513; /* SaddleBrown */
-            --secondary-color: #F5DEB3; /* Wheat */
-            --text-color: #4a4a4a;
-            --bg-color: #FFFAF0; /* FloralWhite */
-            --header-bg: rgba(255, 250, 240, 0.85);
-            --white: #ffffff;
-            --light-gray: #f4f4f4;
-            --shadow: 0 4px 15px rgba(0,0,0,0.08);
-        }
-
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.7;
-            font-weight: 300;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--header-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 15px 0;
-            text-align: center;
-            border-bottom: 1px solid var(--secondary-color);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            transition: box-shadow 0.3s ease;
-        }
-        header.scrolled {
-            box-shadow: var(--shadow);
-        }
-        header h1 {
-            margin: 0;
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2em;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        /* Navigation */
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 25px;
-        }
-        nav a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 1em;
-            position: relative;
-            padding-bottom: 5px;
-        }
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--primary-color);
-            transition: width 0.3s ease;
-        }
-        nav a:hover::after, nav a.active::after {
-            width: 100%;
-        }
-        
-        /* Hero Section - Slider */
-        .hero {
-            height: 60vh;
-            position: relative;
-            overflow: hidden;
-            color: var(--white);
-        }
-        .slide {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            opacity: 0;
-            transition: opacity 1.5s ease-in-out;
-            transform: scale(1.1);
-        }
-        .slide.active {
-            opacity: 1;
-            animation: kenburns 10s infinite;
-        }
-        .slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3));
-        }
-        .hero-text {
-            max-width: 800px;
-            position: relative;
-            z-index: 2;
-        }
-        .hero h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5em;
-            margin: 0;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-        }
-        .hero p {
-            font-size: 1.2em;
-            margin-top: 15px;
-            font-weight: 300;
-            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
-        }
-
-        @keyframes kenburns {
-            0% {
-                transform: scale(1.1);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        /* Content Sections */
-        .content-section {
-            padding: 80px 0;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .content-section:last-of-type {
-            border-bottom: none;
-        }
-        .content-section h2 {
-            text-align: center;
-            font-size: 2.5em;
-            font-family: 'Playfair Display', serif;
-            color: var(--primary-color);
-            margin-bottom: 50px;
-        }
-
-        /* Introduction */
-        .introduction p {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.1em;
-            line-height: 1.8;
-        }
-
-        /* Classes */
-        .class-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .class-item {
-            background-color: var(--white);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 4px solid var(--primary-color);
-        }
-        .class-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-        .class-item h3 {
-            font-size: 1.6em;
-            font-weight: 500;
-            color: var(--primary-color);
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .class-item ul {
-            list-style: none;
-            padding: 0;
-            margin: 15px 0;
-        }
-        .class-item li {
-            margin-bottom: 8px;
-        }
-        .class-item small {
-            color: #777;
-            font-style: italic;
-        }
-
-        /* Gallery */
-        .gallery-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .gallery-images img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-        .gallery-images img:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
-        }
-
-        /* Application Form */
-        .application form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--white);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-        }
-        .application .form-group {
-            margin-bottom: 20px;
-        }
-        .application label {
-            font-weight: 500;
-            display: block;
-            margin-bottom: 5px;
-        }
-        .application input,
-        .application select,
-        .application button {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            font-family: 'Noto Sans KR', sans-serif;
-            box-sizing: border-box;
-        }
-        .application input:focus,
-        .application select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 5px rgba(139, 69, 19, 0.3);
-        }
-        .application button {
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 500;
-            transition: background-color 0.3s, transform 0.2s;
-        }
-        .application button:hover {
-            background-color: #6d3a14;
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: var(--light-gray);
-            text-align: center;
-            padding: 40px 20px;
-            margin-top: 80px;
-        }
-        footer p {
-            margin: 0;
-            font-weight: 300;
-        }
-
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2.5em;
-            }
-            .hero p {
-                font-size: 1em;
-            }
-            .content-section h2 {
-                font-size: 2em;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body data-theme="light">
 
-    <header id="header">
-        <div class="header-content">
-            <h1>UNFRAME</h1>
-            <nav>
-                <ul>
-                    <li><a href="#about">소개</a></li>
-                    <li><a href="#social-ring">소셜링</a></li>
-                    <li><a href="#gallery">갤러리</a></li>
-                    <li><a href="#apply">신청하기</a></li>
-                </ul>
-            </nav>
+    <header>
+        <div class="logo">UNFRAME</div>
+        <div class="header-actions">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="작품, 작가 검색">
+            </div>
+            <button class="theme-toggle">🌙</button>
+            <button class="create-btn">소셜링 만들기</button>
         </div>
     </header>
 
     <main>
         <section class="hero">
-            <div class="slide active" style="background-image: url('resize.webp');">
-                <div class="hero-text">
-                    <h2>새로운 경험, 즐거운 만남</h2>
-                    <p>UNFRAME 소셜링과 함께하는 특별한 하루</p>
-                </div>
-            </div>
-            <div class="slide" style="background-image: url('resize_1.webp');">
-                <div class="hero-text">
-                    <h2>취향으로 만나는 우리</h2>
-                    <p>일상의 스트레스를 잊고 온전히 즐거움에 집중하는 시간</p>
-                </div>
-            </div>
-             <div class="slide" style="background-image: url('https://source.unsplash.com/random/1600x900/?craft,workshop');">
-                <div class="hero-text">
-                    <h2>당신만의 작품, 우리들의 추억</h2>
-                    <p>세상에 단 하나뿐인 당신의 이야기를 공유해보세요</p>
-                </div>
+            <div class="hero-content">
+                <h1 class="hero-sentence">"모든 위대한 꿈은 꿈꾸는 사람으로부터 시작된다."</h1>
+                <a href="#feed" class="hero-cta">이야기 둘러보기</a>
             </div>
         </section>
 
-        <div class="container">
-            <section id="about" class="content-section introduction">
-                <h2>UNFRAME 소셜링에 오신 것을 환영합니다</h2>
-                <p>
-                    UNFRAME은 단순한 클래스를 넘어, 취향이 비슷한 사람들이 만나 함께 배우고 교류하는 '소셜링' 커뮤니티입니다.
-                    도자기, 향수 공방 등 다채로운 활동을 통해 새로운 인연을 만나고, 나의 관심사를 넓혀보세요. 
-                    UNFRAME은 어색한 만남이 아닌, 자연스러운 즐거움 속에서 당신의 삶이 더욱 풍요로워지도록 곁에서 함께하겠습니다.
-                </p>
-            </section>
+        <section class="introduction-section">
+            <h2>UNFRAME 소셜링에 오신 것을 환영합니다</h2>
+            <p>
+                UNFRAME은 단순한 독서 모임을 넘어, 취향이 비슷한 사람들이 만나 함께 이야기를 발견하고 교류하는 '소셜링' 커뮤니티입니다.<br>
+                다채로운 장르의 글을 통해 새로운 인연을 만나고, 나의 관심사를 넓혀보세요. UNFRAME은 어색한 만남이 아닌, 자연스러운 즐거움 속에서 당신의 삶이 더욱 풍요로워지도록 곁에서 함께하겠습니다.
+            </p>
+        </section>
 
-            <section id="social-ring" class="content-section">
-                <h2>UNFRAME 소셜링</h2>
-                <div class="class-grid">
-                    <div class="class-item">
-                        <h3>도자기 공예 소셜링</h3>
-                        <p>흙을 빚으며 새로운 사람들과 만나는 시간. 손끝의 감각에 집중하며 편안한 대화를 나눠보세요.</p>
-                        <ul>
-                            <li><strong>시간:</strong> 1~2시간</li>
-                            <li><strong>가격:</strong> 1인 30,000원</li>
-                            <li><strong>인원:</strong> 최대 8명</li>
-                        </ul>
-                        <p><small>* 편안한 복장으로 방문해주세요.</small></p>
-                    </div>
-
-                    <div class="class-item">
-                        <h3>나만의 향수 만들기 소셜링</h3>
-                        <p>세상에 하나뿐인 향수를 만들며 서로의 취향을 공유하는 시간. 향기로 기억될 특별한 만남을 가져보세요.</p>
-                        <ul>
-                            <li><strong>시간:</strong> 1~2시간</li>
-                            <li><strong>가격:</strong> 1인 30,000원</li>
-                            <li><strong>인원:</strong> 최대 8명</li>
-                        </ul>
-                        <p><small>* 모든 재료비가 포함된 가격입니다.</small></p>
-                    </div>
-
-                    <div class="class-item">
-                        <h3>전시회 탐방 소셜링</h3>
-                        <p>예술 작품을 함께 감상하고 이야기를 나누는 시간. 새로운 시선과 영감을 공유하며 교류의 폭을 넓혀보세요.</p>
-                        <ul>
-                            <li><strong>시간:</strong> 1~2시간</li>
-                            <li><strong>가격:</strong> 1인 30,000원</li>
-                            <li><strong>인원:</strong> 최대 8명</li>
-                        </ul>
-                        <p><small>* 재료비와 소성비는 별도입니다.</small></p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="gallery" class="content-section">
-                <h2>Gallery</h2>
-                <div class="gallery-images">
-                    <img src="resize.webp" alt="완성된 도자기 작품들">
-                    <img src="resize_1.webp" alt="향수 공방의 모습">
-                    <img src="https://source.unsplash.com/random/400x400/?pottery,class" alt="도자기 클래스">
-                    <img src="https://source.unsplash.com/random/400x400/?perfume,making" alt="향수 만들기">
-                    <img src="https://source.unsplash.com/random/400x400/?art,exhibition" alt="전시회 풍경">
-                    <img src="https://source.unsplash.com/random/400x400/?handmade,craft" alt="수공예품">
-                </div>
-            </section>
-
-            <section id="apply" class="content-section application">
-                <h2>소셜링 신청하기</h2>
-                <form action="#" method="post">
-                    <div class="form-group">
-                        <label for="name">이름</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">연락처</label>
-                        <input type="tel" id="contact" name="contact" required placeholder="010-1234-5678">
-                    </div>
-                    <div class="form-group">
-                        <label for="class_choice">원하는 소셜링</label>
-                        <select id="class_choice" name="class_choice">
-                            <option value="pottery">도자기 공예 소셜링</option>
-                            <option value="perfume">나만의 향수 만들기 소셜링</option>
-                            <option value="exhibition">전시회 탐방 소셜링</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="participants">참여 인원</label>
-                        <input type="number" id="participants" name="participants" min="1" max="8" value="1" required>
-                    </div>
-                    <button type="submit">신청하기</button>
-                </form>
-            </section>
-        </div>
+        <section class="feed-container" id="feed">
+            <div class="card-grid" id="card-grid">
+                <!-- Cards will be injected here by JavaScript -->
+            </div>
+            <div id="loader">
+                <span>Loading...</span>
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2026 UNFRAME. All Rights Reserved.</p>
-    </footer>
+    <div class="modal-overlay" id="application-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2>새로운 소셜링 만들기</h2>
+            <form id="application-form">
+                <div class="hp-field" aria-hidden="true">
+                    <label for="hp-field-create">Leave this field empty</label>
+                    <input type="text" id="hp-field-create" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="ring-name">소셜링 이름</label>
+                    <input type="text" id="ring-name" name="ring-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="leader-name">리더 이름</label>
+                    <input type="text" id="leader-name" name="leader-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">모임 소개</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="genre">주제 / 장르</label>
+                    <input type="text" id="genre" name="genre" placeholder="예: SF, 고전, 시, 웹소설 등" required>
+                </div>
+                <div class="form-group form-group-half">
+                    <label for="max-members">모집 인원</label>
+                    <input type="number" id="max-members" name="max-members" min="2" max="20" value="5">
+                </div>
+                <div class="form-group form-group-half">
+                    <label for="contact-info">연락처</label>
+                    <input type="text" id="contact-info" name="contact-info" placeholder="카카오톡 오픈채팅 링크 등" required>
+                </div>
+                <button type="submit" class="submit-btn">만들기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Joining a Ring -->
+    <div class="modal-overlay" id="join-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 id="join-modal-title">"" 소셜링에 참여 신청</h2>
+            <form id="join-form">
+                <div class="hp-field" aria-hidden="true">
+                    <label for="hp-field-join">Leave this field empty</label>
+                    <input type="text" id="hp-field-join" name="company">
+                </div>
+                <div class="form-group">
+                    <label for="join-name">신청자 이름</label>
+                    <input type="text" id="join-name" name="join-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="join-contact">연락처</label>
+                    <input type="text" id="join-contact" name="join-contact" placeholder="회신받을 연락처를 남겨주세요" required>
+                </div>
+                <div class="form-group">
+                    <label for="join-message">모임장에게 전하는 메시지</label>
+                    <textarea id="join-message" name="join-message" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">참여 신청하기</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Add shadow to header on scroll
-            const header = document.getElementById('header');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    header.classList.add('scrolled');
+            const themeToggle = document.querySelector('.theme-toggle');
+            const cardGrid = document.getElementById('card-grid');
+            const loader = document.getElementById('loader');
+            const heroCta = document.querySelector('.hero-cta');
+            const createBtn = document.querySelector('.create-btn');
+            const closeButtons = document.querySelectorAll('.modal-close');
+
+            // --- 1. Theme Toggler ---
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', currentTheme);
+            themeToggle.textContent = currentTheme === 'light' ? '🌙' : '☀️';
+
+            themeToggle.addEventListener('click', () => {
+                let newTheme = document.body.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                document.body.setAttribute('data-theme', newTheme);
+                themeToggle.textContent = newTheme === 'light' ? '🌙' : '☀️';
+                localStorage.setItem('theme', newTheme);
+            });
+            
+            // --- 2. Hero CTA Scroll ---
+            heroCta.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('#feed').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            // --- 3. Generic Modal Control ---
+            const openModal = (modalId) => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'flex';
+                    document.body.classList.add('modal-open');
+                }
+            };
+
+            const closeModal = (modalId) => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.classList.remove('modal-open');
+                }
+            };
+
+            // Event listener for "Create" button
+            createBtn.addEventListener('click', () => openModal('application-modal'));
+
+            // Event listeners for all close buttons
+            closeButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const modal = btn.closest('.modal-overlay');
+                    closeModal(modal.id);
+                });
+            });
+
+            // Event listener for clicking modal overlay
+            window.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal-overlay')) {
+                    closeModal(e.target.id);
+                }
+            });
+
+            // --- 4. Form Submission Handlers ---
+            const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxIF9eGDGkAyAebnOCL_Q2MxtNEyOdod0zrFjiRpR1sUxjhn_44X-Q-VeZZAvnDqLoADA/exec';
+            const toastContainer = document.getElementById('toast-container');
+
+            const showToast = (message, type = 'success') => {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+                toastContainer.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'toast-out 0.25s ease forwards';
+                }, 2200);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 2500);
+            };
+
+            const normalizeContact = (raw) => {
+                if (/[A-Za-z]/.test(raw)) {
+                    return { ok: false, message: '연락처는 숫자만 입력해주세요.' };
+                }
+                const digits = raw.replace(/\D/g, '');
+                if (!digits.startsWith('010') || digits.length !== 11) {
+                    return { ok: false, message: '연락처는 010으로 시작하는 11자리 번호만 가능합니다.' };
+                }
+                const formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
+                return { ok: true, value: formatted };
+            };
+
+            const formatContactInput = (inputEl) => {
+                const raw = inputEl.value;
+                if (/[A-Za-z]/.test(raw)) {
+                    showToast('연락처에는 문자를 입력할 수 없습니다.', 'error');
+                }
+                const digits = raw.replace(/\D/g, '').slice(0, 11);
+                if (digits.length === 11 && digits.startsWith('010')) {
+                    inputEl.value = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
                 } else {
-                    header.classList.remove('scrolled');
+                    inputEl.value = digits;
+                }
+            };
+            const createContactInput = document.getElementById('contact-info');
+            createContactInput.addEventListener('blur', () => formatContactInput(createContactInput));
+            createContactInput.addEventListener('input', () => formatContactInput(createContactInput));
+
+            document.getElementById('application-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (document.getElementById('hp-field-create').value) {
+                    showToast('전송할 수 없습니다.', 'error');
+                    return;
+                }
+                const ringName = document.getElementById('ring-name').value.trim();
+                const leaderName = document.getElementById('leader-name').value.trim();
+                const description = document.getElementById('description').value.trim();
+                const genre = document.getElementById('genre').value.trim();
+                const maxMembers = document.getElementById('max-members').value.trim();
+                const contactInfoRaw = document.getElementById('contact-info').value.trim();
+                const contactCheck = normalizeContact(contactInfoRaw);
+                if (!contactCheck.ok) {
+                    showToast(contactCheck.message, 'error');
+                    return;
+                }
+                const contactInfo = contactCheck.value;
+
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = '전송 중...';
+
+                try {
+                    const payload = new URLSearchParams();
+                    // Spreadsheet column order for create submissions
+                    [
+                        ['action', 'create'],
+                        ['ringName', ringName],
+                        ['leaderName', leaderName],
+                        ['description', description],
+                        ['genre', genre],
+                        ['maxMembers', maxMembers],
+                        ['contactInfo', contactInfo]
+                    ].forEach(([key, value]) => payload.append(key, value));
+
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        body: payload
+                    });
+
+                    showToast('소셜링 만들기가 신청되었습니다.', 'success');
+                    closeModal('application-modal');
+                    e.target.reset();
+                } catch (error) {
+                    console.error(error);
+                    showToast('전송에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
                 }
             });
 
-            // Hero Slider
-            const slides = document.querySelectorAll('.slide');
-            if (slides.length > 0) {
-                let currentSlide = 0;
-                const slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            const joinContactInput = document.getElementById('join-contact');
+            joinContactInput.addEventListener('blur', () => formatContactInput(joinContactInput));
+            joinContactInput.addEventListener('input', () => formatContactInput(joinContactInput));
 
-                function nextSlide() {
-                    slides[currentSlide].classList.remove('active');
-                    currentSlide = (currentSlide + 1) % slides.length;
-                    slides[currentSlide].classList.add('active');
+            document.getElementById('join-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (document.getElementById('hp-field-join').value) {
+                    showToast('전송할 수 없습니다.', 'error');
+                    return;
                 }
-            }
+                const name = document.getElementById('join-name').value.trim();
+                const contactRaw = document.getElementById('join-contact').value.trim();
+                const message = document.getElementById('join-message').value.trim();
 
-            // Active Nav Link on Scroll
-            const sections = document.querySelectorAll('.content-section');
-            const navLi = document.querySelectorAll('nav a');
+                const contactCheck = normalizeContact(contactRaw);
+                if (!contactCheck.ok) {
+                    showToast(contactCheck.message, 'error');
+                    return;
+                }
+                const contact = contactCheck.value;
 
-            window.addEventListener('scroll', () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    if (pageYOffset >= sectionTop - 150) {
-                        current = section.getAttribute('id');
-                    }
-                });
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.textContent;
+                submitBtn.disabled = true;
+                submitBtn.textContent = '전송 중...';
 
-                navLi.forEach(a => {
-                    a.classList.remove('active');
-                    if (a.getAttribute('href') == '#' + current) {
-                        a.classList.add('active');
-                    }
-                });
+                try {
+                    const payload = new URLSearchParams();
+                    // Spreadsheet column order for join submissions
+                    [
+                        ['action', 'join'],
+                        ['name', name],
+                        ['contact', contact],
+                        ['message', message]
+                    ].forEach(([key, value]) => payload.append(key, value));
+
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        body: payload
+                    });
+
+                    showToast('참여 신청이 완료되었습니다.', 'success');
+                    closeModal('join-modal');
+                    e.target.reset();
+                } catch (error) {
+                    console.error(error);
+                    showToast('전송에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
             });
+
+            // --- 5. Event Delegation for Join Buttons ---
+            cardGrid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('join-ring-btn')) {
+                    const ringName = e.target.dataset.ringName;
+                    document.getElementById('join-modal-title').textContent = `"${ringName}" 소셜링에 참여 신청`;
+                    openModal('join-modal');
+                }
+            });
+
+            // --- 6. Infinite Scroll ---
+            let cardCount = 0;
+            const fetchCount = 9;
+
+            const dummyData = [
+                { title: "한여름 밤의 꿈", author: "셰익스피어", excerpt: "서로 다른 세계의 연인들이 숲속에서 마법처럼 얽히고설키는 이야기. 사랑의 변덕과 몽환적인 하룻밤의 소동." },
+                { title: "데미안", author: "헤르만 헤세", excerpt: "싱클레어가 데미안을 만나 자신의 내면세계를 발견하고 알을 깨고 나오는 과정을 그린 성장 소설." },
+                { title: "노인과 바다", author: "어니스트 헤밍웨이", excerpt: "거대한 청새치를 잡기 위한 한 노인 어부의 끈질긴 사투를 통해 인간의 존엄성과 불굴의 의지를 보여준다." },
+                { title: "달과 6펜스", author: "서머싯 몸", excerpt: "안정된 삶을 버리고 그림에 대한 열정 하나로 파리로 떠난 스트릭랜드의 예술과 삶에 대한 이야기." },
+                { title: "어린 왕자", author: "생텍쥐페리", excerpt: "사막에 불시착한 조종사가 다른 행성에서 온 어린 왕자를 만나면서 어른들의 세상을 비판하고 순수함의 가치를 되새긴다." },
+                { title: "1984", author: "조지 오웰", excerpt: "빅 브라더가 모든 것을 감시하는 전체주의 사회에서 개인이 어떻게 저항하고 소멸하는지를 그린 디스토피아 소설." },
+                { title: "호밀밭의 파수꾼", author: "J.D. 샐린저", excerpt: "퇴학당한 고등학생 홀든 콜필드가 집으로 돌아가기까지 며칠간의 방황을 통해 위선적인 세상에 대한 반항을 이야기한다." },
+                { title: "위대한 개츠비", author: "스콧 피츠제럴드", excerpt: "1920년대 미국, 한 남자의 사랑과 꿈, 그리고 좌절을 통해 아메리칸드림의 허상을 그려낸다." },
+                { title: "이방인", author: "알베르 카뮈", excerpt: "세상의 부조리와 관습에 순응하지 않는 뫼르소를 통해 인간 존재의 의미와 실존의 문제를 탐구한다." }
+            ];
+
+            const createCard = () => {
+                const cardIndex = cardCount % dummyData.length;
+                const data = dummyData[cardIndex];
+                
+                const card = document.createElement('div');
+                card.classList.add('card');
+                
+                const randomImageId = Math.floor(Math.random() * 1000);
+
+                card.innerHTML = `
+                    <div class="card-image" style="background-image: url('https://picsum.photos/id/${randomImageId}/400/300')"></div>
+                    <div class="card-content">
+                        <h3 class="card-title">${data.title}</h3>
+                        <p class="card-author">${data.author}</p>
+                        <p class="card-excerpt">${data.excerpt}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="join-ring-btn" data-ring-name="${data.title}">참여하기</button>
+                    </div>
+                `;
+                cardGrid.appendChild(card);
+
+                cardCount++;
+            };
+            
+            const loadMoreCards = () => {
+                for (let i = 0; i < fetchCount; i++) {
+                    createCard();
+                }
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setTimeout(loadMoreCards, 500);
+                }
+            }, {
+                rootMargin: '100px'
+            });
+
+            observer.observe(loader);
+
+            loadMoreCards();
         });
     </script>
-
 </body>
 </html>
