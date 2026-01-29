@@ -97,6 +97,7 @@
                     <label for="hp-field-join">Leave this field empty</label>
                     <input type="text" id="hp-field-join" name="company">
                 </div>
+                <input type="hidden" id="join-ring-title" name="join-ring-title">
                 <div class="form-group">
                     <label for="join-name">신청자 이름</label>
                     <input type="text" id="join-name" name="join-name" required>
@@ -298,6 +299,7 @@
                 const name = document.getElementById('join-name').value.trim();
                 const contactRaw = document.getElementById('join-contact').value.trim();
                 const message = document.getElementById('join-message').value.trim();
+                const ringTitle = document.getElementById('join-ring-title').value.trim();
 
                 const contactCheck = normalizeContact(contactRaw);
                 if (!contactCheck.ok) {
@@ -316,6 +318,7 @@
                     // Spreadsheet column order for join submissions
                     [
                         ['action', 'join'],
+                        ['ringTitle', ringTitle],
                         ['name', name],
                         ['contact', contact],
                         ['message', message]
@@ -346,6 +349,7 @@
                 if (e.target.classList.contains('join-ring-btn')) {
                     const ringName = e.target.dataset.ringName;
                     document.getElementById('join-modal-title').textContent = `"${ringName}" 소셜링에 참여 신청`;
+                    document.getElementById('join-ring-title').value = ringName;
                     openModal('join-modal');
                 }
             });
