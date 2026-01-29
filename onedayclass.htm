@@ -58,6 +58,44 @@
             color: var(--primary-color);
             font-weight: 700;
         }
+
+        /* Navigation */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 25px;
+        }
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 1em;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after, nav a.active::after {
+            width: 100%;
+        }
         
         /* Hero Section - Slider */
         .hero {
@@ -280,47 +318,57 @@
 <body>
 
     <header id="header">
-        <h1>UNFRAME</h1>
+        <div class="header-content">
+            <h1>UNFRAME</h1>
+            <nav>
+                <ul>
+                    <li><a href="#about">소개</a></li>
+                    <li><a href="#social-ring">소셜링</a></li>
+                    <li><a href="#gallery">갤러리</a></li>
+                    <li><a href="#apply">신청하기</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <main>
         <section class="hero">
             <div class="slide active" style="background-image: url('resize.webp');">
                 <div class="hero-text">
-                    <h2>새로운 경험, 더 깊은 관계</h2>
-                    <p>나를 찾아가는 시간, UNFRAME과 함께하는 특별한 하루</p>
+                    <h2>새로운 경험, 즐거운 만남</h2>
+                    <p>UNFRAME 소셜링과 함께하는 특별한 하루</p>
                 </div>
             </div>
             <div class="slide" style="background-image: url('resize_1.webp');">
                 <div class="hero-text">
-                    <h2>손 끝에서 피어나는 예술</h2>
-                    <p>일상의 스트레스를 잊고 온전히 나에게 집중하는 시간</p>
+                    <h2>취향으로 만나는 우리</h2>
+                    <p>일상의 스트레스를 잊고 온전히 즐거움에 집중하는 시간</p>
                 </div>
             </div>
              <div class="slide" style="background-image: url('https://source.unsplash.com/random/1600x900/?craft,workshop');">
                 <div class="hero-text">
-                    <h2>당신만의 작품을 만들다</h2>
-                    <p>세상에 단 하나뿐인 당신의 이야기를 담아보세요</p>
+                    <h2>당신만의 작품, 우리들의 추억</h2>
+                    <p>세상에 단 하나뿐인 당신의 이야기를 공유해보세요</p>
                 </div>
             </div>
         </section>
 
         <div class="container">
             <section id="about" class="content-section introduction">
-                <h2>UNFRAME에 대한 소개</h2>
+                <h2>UNFRAME 소셜링에 오신 것을 환영합니다</h2>
                 <p>
-                    UNFRAME은 도자기, 향수 공방 등 다양한 클래스를 통해 단순한 취미를 넘어 사람과 사람을 잇는 공간을 제공합니다.
-                    함께 배우고 만드는 과정에서 소중한 인연을 만나고, 자신의 새로운 가능성을 발견해 보세요. 
-                    UNFRAME은 당신의 삶이 더 풍요로워지도록 곁에서 함께하겠습니다.
+                    UNFRAME은 단순한 클래스를 넘어, 취향이 비슷한 사람들이 만나 함께 배우고 교류하는 '소셜링' 커뮤니티입니다.
+                    도자기, 향수 공방 등 다채로운 활동을 통해 새로운 인연을 만나고, 나의 관심사를 넓혀보세요. 
+                    UNFRAME은 어색한 만남이 아닌, 자연스러운 즐거움 속에서 당신의 삶이 더욱 풍요로워지도록 곁에서 함께하겠습니다.
                 </p>
             </section>
 
-            <section id="classes" class="content-section">
-                <h2>One-day Classes</h2>
+            <section id="social-ring" class="content-section">
+                <h2>UNFRAME 소셜링</h2>
                 <div class="class-grid">
                     <div class="class-item">
-                        <h3>도자기 공예</h3>
-                        <p>흙으로 빚는 나만의 작품, 손끝에서 시작되는 힐링의 시간.</p>
+                        <h3>도자기 공예 소셜링</h3>
+                        <p>흙을 빚으며 새로운 사람들과 만나는 시간. 손끝의 감각에 집중하며 편안한 대화를 나눠보세요.</p>
                         <ul>
                             <li><strong>시간:</strong> 1~2시간</li>
                             <li><strong>가격:</strong> 1인 30,000원</li>
@@ -330,8 +378,8 @@
                     </div>
 
                     <div class="class-item">
-                        <h3>나만의 향수 만들기</h3>
-                        <p>세상에 하나뿐인 나만의 향기로 특별한 순간을 만드는 시간.</p>
+                        <h3>나만의 향수 만들기 소셜링</h3>
+                        <p>세상에 하나뿐인 향수를 만들며 서로의 취향을 공유하는 시간. 향기로 기억될 특별한 만남을 가져보세요.</p>
                         <ul>
                             <li><strong>시간:</strong> 1~2시간</li>
                             <li><strong>가격:</strong> 1인 30,000원</li>
@@ -341,8 +389,8 @@
                     </div>
 
                     <div class="class-item">
-                        <h3>전시회 탐방</h3>
-                        <p>예술로 채우는 감성의 하루, 새로운 시선과 만나는 시간.</p>
+                        <h3>전시회 탐방 소셜링</h3>
+                        <p>예술 작품을 함께 감상하고 이야기를 나누는 시간. 새로운 시선과 영감을 공유하며 교류의 폭을 넓혀보세요.</p>
                         <ul>
                             <li><strong>시간:</strong> 1~2시간</li>
                             <li><strong>가격:</strong> 1인 30,000원</li>
@@ -366,7 +414,7 @@
             </section>
 
             <section id="apply" class="content-section application">
-                <h2>클래스 신청하기</h2>
+                <h2>소셜링 신청하기</h2>
                 <form action="#" method="post">
                     <div class="form-group">
                         <label for="name">이름</label>
@@ -377,11 +425,11 @@
                         <input type="tel" id="contact" name="contact" required placeholder="010-1234-5678">
                     </div>
                     <div class="form-group">
-                        <label for="class_choice">원하는 클래스</label>
+                        <label for="class_choice">원하는 소셜링</label>
                         <select id="class_choice" name="class_choice">
-                            <option value="pottery">도자기 공예</option>
-                            <option value="perfume">나만의 향수 만들기</option>
-                            <option value="exhibition">전시회 탐방</option>
+                            <option value="pottery">도자기 공예 소셜링</option>
+                            <option value="perfume">나만의 향수 만들기 소셜링</option>
+                            <option value="exhibition">전시회 탐방 소셜링</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -399,27 +447,50 @@
     </footer>
 
     <script>
-        // Add shadow to header on scroll
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 20) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-
-        // Hero Slider
         document.addEventListener('DOMContentLoaded', () => {
-            const slides = document.querySelectorAll('.slide');
-            let currentSlide = 0;
-            const slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+            // Add shadow to header on scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
 
-            function nextSlide() {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
+            // Hero Slider
+            const slides = document.querySelectorAll('.slide');
+            if (slides.length > 0) {
+                let currentSlide = 0;
+                const slideInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+                function nextSlide() {
+                    slides[currentSlide].classList.remove('active');
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    slides[currentSlide].classList.add('active');
+                }
             }
+
+            // Active Nav Link on Scroll
+            const sections = document.querySelectorAll('.content-section');
+            const navLi = document.querySelectorAll('nav a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLi.forEach(a => {
+                    a.classList.remove('active');
+                    if (a.getAttribute('href') == '#' + current) {
+                        a.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 

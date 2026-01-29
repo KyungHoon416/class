@@ -2,27 +2,47 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+
+      # 배포할 정적 파일들을 dist 폴더로 모으기
+      - name: Prepare site
+        run: |
+          mkdir -p dist
+          cp onedayclass.htm dist/index.html
+
+          # 만약 css/js/image 같은게 있으면 여기서 같이 복사해줘야 함
+          # 예: cp -r assets dist/assets
+          # 예: cp -r static dist/static
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: dist
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Print deployed URL
-        run: echo "GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
