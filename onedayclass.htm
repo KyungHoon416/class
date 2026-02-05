@@ -19,7 +19,6 @@
                 <input type="text" placeholder="작품, 작가 검색">
             </div>
             <button class="theme-toggle">🌙</button>
-            <button class="create-btn">소셜링 만들기</button>
         </div>
     </header>
 
@@ -115,6 +114,10 @@
         </div>
     </div>
 
+    <button class="floating-create-btn" aria-label="소셜링 만들기 신청">
+        <span class="floating-icon" aria-hidden="true"></span>
+        <span class="floating-label">소셜링 만들기 신청</span>
+    </button>
     <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
     <script>
@@ -123,7 +126,7 @@
             const cardGrid = document.getElementById('card-grid');
             const loader = document.getElementById('loader');
             const heroCta = document.querySelector('.hero-cta');
-            const createBtn = document.querySelector('.create-btn');
+            const createBtn = document.querySelector('.floating-create-btn') || document.querySelector('.create-btn');
             const closeButtons = document.querySelectorAll('.modal-close');
             const searchInput = document.querySelector('.search-container input');
 

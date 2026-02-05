@@ -66,9 +66,12 @@
             display: flex;
             align-items: center;
             gap: 20px;
+            min-width: 0;
         }
         .search-container {
             position: relative;
+            flex: 1 1 auto;
+            min-width: 0;
         }
         .search-container input {
             border: 1px solid var(--border-color);
@@ -77,6 +80,7 @@
             background-color: transparent;
             color: var(--text-color);
             width: 180px;
+            max-width: 100%;
             transition: all 0.3s ease;
         }
         .search-container input:focus {
@@ -125,6 +129,45 @@
         .create-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 15px rgba(254, 180, 123, 0.4);
+        }
+        .floating-create-btn {
+            position: fixed;
+            right: 24px;
+            bottom: 90px;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-mid));
+            border: none;
+            color: #fff;
+            font-size: 1em;
+            font-weight: 600;
+            padding: 12px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(254, 180, 123, 0.35);
+            z-index: 1200;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+        .floating-create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(254, 180, 123, 0.45);
+        }
+        .floating-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M3 17.25V21h3.75l11-11-3.75-3.75-11 11Zm14.71-9.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.99-1.66Z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 16px 16px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+            flex: 0 0 auto;
+        }
+        .floating-label {
+            letter-spacing: -0.01em;
         }
 
         /* Hero Section */
@@ -410,7 +453,8 @@
         }
         .card-footer {
             padding: 0 20px 20px;
-            text-align: right;
+            display: flex;
+            justify-content: flex-end;
         }
         .join-ring-btn {
             background-color: transparent;
@@ -422,6 +466,7 @@
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
+            max-width: 100%;
         }
         .join-ring-btn:hover {
             background-color: var(--text-color);
@@ -437,9 +482,81 @@
         }
 
         @media (max-width: 768px) {
-            body { padding-top: 100px; }
+            body { padding-top: 110px; }
             header { flex-direction: column; height: auto; padding: 10px; }
             .logo { margin-bottom: 10px; }
+            .header-actions { width: 100%; display: flex; flex-direction: row; align-items: center; gap: 24px; }
+            .search-container { flex: 1 1 0; max-width: calc(100% - 90px); }
+            .search-container input { width: 100%; max-width: 100%; }
+            .search-container input:focus { width: 100%; max-width: 100%; }
+            .theme-toggle { margin-left: auto; flex: 0 0 auto; position: relative; z-index: 2; }
             .hero-sentence { font-size: 2.5em; }
             .form-group-half { width: 100%; }
+            .card-footer { text-align: center; }
+            .join-ring-btn { width: 100%; padding: 10px 16px; }
+            .floating-create-btn { right: 16px; bottom: 80px; padding: 11px 14px; }
         }
+
+        @media (max-width: 480px) {
+            header { padding: 10px 12px; }
+            .header-actions { gap: 8px; }
+            .search-container input { font-size: 0.95em; }
+        }
+
+/* Mobile-specific modal & form adjustments */
+@media (max-width: 480px) {
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 8px;
+        background: rgba(0,0,0,0.55);
+    }
+    .modal-content {
+        width: 100%;
+        max-width: none;
+        border-radius: 14px 14px 6px 6px;
+        padding: 22px 18px 28px;
+        margin: 0;
+        height: auto;
+        max-height: 92vh;
+        box-shadow: none;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .modal-content h2 {
+        font-size: 1.6em;
+        margin-bottom: 18px;
+    }
+    .modal-close {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        font-size: 1.8em;
+        background: none;
+        opacity: 0.7;
+    }
+    #application-form {
+        gap: 14px;
+        padding-bottom: 10px;
+    }
+    .form-group label {
+        font-weight: 700;
+        margin-bottom: 10px;
+        font-size: 0.95em;
+    }
+    .form-group input,
+    .form-group textarea {
+        background-color: #f4f6f7;
+        border: 1px solid #e6e9EE;
+        padding: 14px;
+        border-radius: 10px;
+        font-size: 1rem;
+    }
+    .form-group textarea { min-height: 110px; }
+    .form-group-half { width: 100%; }
+    .submit-btn {
+        padding: 16px 14px;
+        border-radius: 10px;
+        font-size: 1.05em;
+    }
+    .floating-create-btn { bottom: 22px; right: 16px; }
+}
