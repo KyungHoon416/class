@@ -39,6 +39,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
 
         /* Header */
@@ -262,13 +263,14 @@
         }
         .modal-content {
             background: var(--card-bg);
-            padding: 30px 40px;
-            border-radius: 15px;
+            padding: 18px 20px 22px;
+            border-radius: 16px;
             max-width: 500px;
             width: 90%;
             position: relative;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             animation: modal-appear 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.06);
         }
         @keyframes modal-appear {
             from {
@@ -298,13 +300,13 @@
         .modal-content h2 {
             font-family: 'Playfair Display', serif;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 14px;
             text-align: center;
         }
         #application-form {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 12px;
         }
         .form-group {
             width: 100%;
@@ -327,6 +329,9 @@
             font-size: 1em;
             color: var(--text-color);
             box-sizing: border-box;
+        }
+        .form-group textarea {
+            resize: vertical;
         }
         .form-group input:focus,
         .form-group textarea:focus {
@@ -506,57 +511,57 @@
 /* Mobile-specific modal & form adjustments */
 @media (max-width: 480px) {
     .modal-overlay {
-        align-items: flex-end;
-        padding: 8px;
+        align-items: center;
+        padding: 16px;
         background: rgba(0,0,0,0.55);
     }
     .modal-content {
         width: 100%;
-        max-width: none;
-        border-radius: 14px 14px 6px 6px;
-        padding: 22px 18px 28px;
+        max-width: 420px;
+        border-radius: 16px;
+        padding: 16px 16px 18px;
         margin: 0;
         height: auto;
-        max-height: 92vh;
-        box-shadow: none;
+        max-height: 90vh;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.18);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
     }
     .modal-content h2 {
-        font-size: 1.6em;
-        margin-bottom: 18px;
+        font-size: 1.35em;
+        margin-bottom: 10px;
     }
     .modal-close {
         position: absolute;
-        top: 8px;
-        right: 12px;
-        font-size: 1.8em;
+        top: 6px;
+        right: 10px;
+        font-size: 1.6em;
         background: none;
         opacity: 0.7;
     }
     #application-form {
-        gap: 14px;
+        gap: 10px;
         padding-bottom: 10px;
     }
     .form-group label {
         font-weight: 700;
         margin-bottom: 10px;
-        font-size: 0.95em;
+        font-size: 0.9em;
     }
     .form-group input,
     .form-group textarea {
         background-color: #f4f6f7;
         border: 1px solid #e6e9EE;
-        padding: 14px;
+        padding: 12px;
         border-radius: 10px;
-        font-size: 1rem;
+        font-size: 0.95rem;
     }
     .form-group textarea { min-height: 110px; }
     .form-group-half { width: 100%; }
     .submit-btn {
-        padding: 16px 14px;
+        padding: 12px 12px;
         border-radius: 10px;
-        font-size: 1.05em;
+        font-size: 1em;
     }
     .floating-create-btn { bottom: 22px; right: 16px; }
 }
