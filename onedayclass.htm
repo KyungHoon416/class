@@ -54,6 +54,16 @@
             <button class="modal-close">&times;</button>
             <h2>새로운 소셜링 만들기</h2>
             <form id="application-form">
+                <div class="form-group">
+                    <label for="ring-image">대표 이미지</label>
+                    <div id="image-dropzone" class="image-dropzone">
+                        <div class="image-dropzone-text">
+                            사진을 끌어다 놓거나 클릭해서 선택하세요
+                        </div>
+                        <img id="image-preview" class="image-preview" alt="" />
+                    </div>
+                    <input type="file" id="ring-image" name="ring-image" accept="image/*" capture="environment">
+                </div>
                 <div class="hp-field" aria-hidden="true">
                     <label for="hp-field-create">Leave this field empty</label>
                     <input type="text" id="hp-field-create" name="company">
@@ -126,6 +136,10 @@
             const createBtn = document.querySelector('.create-btn');
             const closeButtons = document.querySelectorAll('.modal-close');
             const searchInput = document.querySelector('.search-container input');
+            const imageInput = document.getElementById('ring-image');
+            const imageDropzone = document.getElementById('image-dropzone');
+            const imagePreview = document.getElementById('image-preview');
+            let imageDataUrl = '';
 
             // --- 1. Theme Toggler ---
             const currentTheme = localStorage.getItem('theme') || 'light';
@@ -201,6 +215,46 @@
                 }, 2500);
             };
 
+            const setImagePreview = (dataUrl) => {
+                if (!dataUrl) {
+                    imagePreview.style.display = 'none';
+                    imagePreview.src = '';
+                    return;
+                }
+                imagePreview.src = dataUrl;
+                imagePreview.style.display = 'block';
+            };
+
+            const loadImageFile = (file) => {
+                if (!file) return;
+                if (!file.type.startsWith('image/')) {
+                    showToast('이미지 파일만 업로드할 수 있어요.', 'error');
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = () => {
+                    imageDataUrl = reader.result;
+                    setImagePreview(imageDataUrl);
+                };
+                reader.readAsDataURL(file);
+            };
+
+            imageDropzone.addEventListener('click', () => imageInput.click());
+            imageInput.addEventListener('change', (e) => loadImageFile(e.target.files[0]));
+            imageDropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                imageDropzone.classList.add('dragover');
+            });
+            imageDropzone.addEventListener('dragleave', () => {
+                imageDropzone.classList.remove('dragover');
+            });
+            imageDropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                imageDropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                loadImageFile(file);
+            });
+
             const normalizeContact = (raw) => {
                 if (/[A-Za-z]/.test(raw)) {
                     return { ok: false, message: '연락처는 숫자만 입력해주세요.' };
@@ -241,6 +295,7 @@
                 const genre = document.getElementById('genre').value.trim();
                 const maxMembers = document.getElementById('max-members').value.trim();
                 const contactInfoRaw = document.getElementById('contact-info').value.trim();
+                const imageUrl = imageDataUrl;
                 const contactCheck = normalizeContact(contactInfoRaw);
                 if (!contactCheck.ok) {
                     showToast(contactCheck.message, 'error');
@@ -263,7 +318,8 @@
                         ['description', description],
                         ['genre', genre],
                         ['maxMembers', maxMembers],
-                        ['contactInfo', contactInfo]
+                        ['contactInfo', contactInfo],
+                        ['imageUrl', imageUrl]
                     ].forEach(([key, value]) => payload.append(key, value));
 
                     await fetch(SCRIPT_URL, {
@@ -274,9 +330,22 @@
                         body: payload
                     });
 
+                    rings.unshift({
+                        title: ringName,
+                        author: leaderName,
+                        excerpt: description,
+                        genre,
+                        maxMembers,
+                        contactInfo,
+                        imageUrl
+                    });
+                    renderCards();
+
                     showToast('소셜링 만들기가 신청되었습니다.', 'success');
                     closeModal('application-modal');
                     e.target.reset();
+                    imageDataUrl = '';
+                    setImagePreview('');
                 } catch (error) {
                     console.error(error);
                     showToast('전송에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
@@ -332,6 +401,12 @@
                         body: payload
                     });
 
+                    const targetBtn = document.querySelector(`.join-ring-btn[data-ring-name="${CSS.escape(ringTitle)}"]`);
+                    if (targetBtn) {
+                        targetBtn.textContent = '신청 완료';
+                        targetBtn.disabled = true;
+                    }
+
                     showToast('참여 신청이 완료되었습니다.', 'success');
                     closeModal('join-modal');
                     e.target.reset();
@@ -354,30 +429,18 @@
                 }
             });
 
-            // --- 6. Infinite Scroll ---
-            let cardCount = 0;
-            const fetchCount = 9;
-
-            const dummyData = [
-                { title: "한여름 밤의 꿈", author: "셰익스피어", excerpt: "서로 다른 세계의 연인들이 숲속에서 마법처럼 얽히고설키는 이야기. 사랑의 변덕과 몽환적인 하룻밤의 소동." },
-                { title: "데미안", author: "헤르만 헤세", excerpt: "싱클레어가 데미안을 만나 자신의 내면세계를 발견하고 알을 깨고 나오는 과정을 그린 성장 소설." },
-                { title: "노인과 바다", author: "어니스트 헤밍웨이", excerpt: "거대한 청새치를 잡기 위한 한 노인 어부의 끈질긴 사투를 통해 인간의 존엄성과 불굴의 의지를 보여준다." },
-                { title: "달과 6펜스", author: "서머싯 몸", excerpt: "안정된 삶을 버리고 그림에 대한 열정 하나로 파리로 떠난 스트릭랜드의 예술과 삶에 대한 이야기." },
-                { title: "어린 왕자", author: "생텍쥐페리", excerpt: "사막에 불시착한 조종사가 다른 행성에서 온 어린 왕자를 만나면서 어른들의 세상을 비판하고 순수함의 가치를 되새긴다." },
-                { title: "1984", author: "조지 오웰", excerpt: "빅 브라더가 모든 것을 감시하는 전체주의 사회에서 개인이 어떻게 저항하고 소멸하는지를 그린 디스토피아 소설." },
-                { title: "호밀밭의 파수꾼", author: "J.D. 샐린저", excerpt: "퇴학당한 고등학생 홀든 콜필드가 집으로 돌아가기까지 며칠간의 방황을 통해 위선적인 세상에 대한 반항을 이야기한다." },
-                { title: "위대한 개츠비", author: "스콧 피츠제럴드", excerpt: "1920년대 미국, 한 남자의 사랑과 꿈, 그리고 좌절을 통해 아메리칸드림의 허상을 그려낸다." },
-                { title: "이방인", author: "알베르 카뮈", excerpt: "세상의 부조리와 관습에 순응하지 않는 뫼르소를 통해 인간 존재의 의미와 실존의 문제를 탐구한다." }
-            ];
-
+            // --- 6. Cards ---
+            const rings = [];
             const createCardFromData = (data) => {
                 const card = document.createElement('div');
                 card.classList.add('card');
                 
-                const randomImageId = Math.floor(Math.random() * 1000);
+                const imageUrl = data.imageUrl
+                    ? data.imageUrl
+                    : `https://picsum.photos/id/${Math.floor(Math.random() * 1000)}/400/300`;
 
                 card.innerHTML = `
-                    <div class="card-image" style="background-image: url('https://picsum.photos/id/${randomImageId}/400/300')"></div>
+                    <div class="card-image" style="background-image: url('${imageUrl}')"></div>
                     <div class="card-content">
                         <h3 class="card-title">${data.title}</h3>
                         <p class="card-author">${data.author}</p>
@@ -390,31 +453,28 @@
                 cardGrid.appendChild(card);
             };
 
-            const createCard = () => {
-                const cardIndex = cardCount % dummyData.length;
-                const data = dummyData[cardIndex];
-                createCardFromData(data);
-
-                cardCount++;
-            };
-            
-            const loadMoreCards = () => {
-                for (let i = 0; i < fetchCount; i++) {
-                    createCard();
-                }
+            const renderEmptyState = () => {
+                cardGrid.innerHTML = `
+                    <div class="card">
+                        <div class="card-content">
+                            <h3 class="card-title">아직 등록된 소셜링이 없어요</h3>
+                            <p class="card-excerpt">상단의 “소셜링 만들기”로 첫 모임을 만들어보세요.</p>
+                        </div>
+                    </div>
+                `;
             };
 
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    setTimeout(loadMoreCards, 500);
+            const renderCards = () => {
+                loader.style.display = 'none';
+                cardGrid.innerHTML = '';
+                if (!rings.length) {
+                    renderEmptyState();
+                    return;
                 }
-            }, {
-                rootMargin: '100px'
-            });
+                rings.forEach(createCardFromData);
+            };
 
-            observer.observe(loader);
-
-            loadMoreCards();
+            renderCards();
 
             // --- 7. Search ---
             const normalizeCompact = (text) => {
@@ -470,17 +530,11 @@
                 cardGrid.innerHTML = '';
 
                 if (!keyword) {
-                    loader.style.display = '';
-                    cardCount = 0;
-                    observer.observe(loader);
-                    loadMoreCards();
+                    renderCards();
                     return;
                 }
 
-                loader.style.display = 'none';
-                observer.disconnect();
-
-                const results = dummyData.filter((item) => isFuzzyMatch(item, keyword));
+                const results = rings.filter((item) => isFuzzyMatch(item, keyword));
 
                 if (!results.length) {
                     const empty = document.createElement('div');
