@@ -180,6 +180,36 @@
             text-align: center;
             padding: 0 20px;
             position: relative; /* For hero-content positioning */
+            overflow: hidden;
+        }
+        .video-hero .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        .hero-video {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .hero-video::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, rgba(255, 126, 95, 0.55), rgba(254, 180, 123, 0.45));
+            mix-blend-mode: multiply;
+        }
+        .hero-video iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            border: 0;
+            pointer-events: none;
         }
         .hero-content {
             position: relative;
@@ -192,6 +222,9 @@
             background: linear-gradient(45deg, var(--gradient-start), var(--gradient-mid), var(--gradient-end));
             background-size: 400% 400%;
             animation: gradient-animation 15s ease infinite;
+        }
+        .video-hero::before {
+            display: none;
         }
 
         @keyframes gradient-animation {
@@ -495,6 +528,7 @@
             .search-container input { width: 100%; max-width: 100%; }
             .search-container input:focus { width: 100%; max-width: 100%; }
             .theme-toggle { margin-left: auto; flex: 0 0 auto; position: relative; z-index: 2; }
+            .hero { height: 42vh; padding: 0 16px; }
             .hero-sentence { font-size: 2.5em; }
             .form-group-half { width: 100%; }
             .card-footer { text-align: center; }
@@ -506,6 +540,9 @@
             header { padding: 10px 12px; }
             .header-actions { gap: 8px; }
             .search-container input { font-size: 0.95em; }
+            .hero { height: 36vh; padding: 0 14px; }
+            .hero-sentence { font-size: 2.1em; margin-bottom: 18px; }
+            .hero-cta { padding: 10px 24px; }
         }
 
 /* Mobile-specific modal & form adjustments */
